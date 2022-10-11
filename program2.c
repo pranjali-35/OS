@@ -16,17 +16,19 @@ int  main(){
 	
 	int x = fork();
 
-	if(x!=0){
+	if(x==0){       //child process when x = 0
+	    printf("Child Process\n");
 		for(int i = 0 ; i < n; i++){
 			if(arr[i]%2 == 0)
 				even_sum += arr[i];
-		}printf("Process with id = %d calculated with even sum = %d\n",getpid(),even_sum);
+		}printf("Process with id = %d calculated even sum = %d\n\n",getpid(),even_sum);
 	}
-	else{
+	else{		//parent process when x > 0
+	    printf("Parent Process\n");
 		for(int i = 0 ; i < n; i++){
 			if(arr[i]%2 != 0)
 				odd_sum += arr[i];
-		}printf("Process with id = %d calculated with odd sum = %d\n",getpid(),odd_sum);
+		}printf("Process with id = %d calculated odd sum = %d\n\n",getpid(),odd_sum);
 	}
 	
 	return 0;
