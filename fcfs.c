@@ -65,11 +65,12 @@ int main(){
 	avg_wt /= n;
 	avg_rt /= n;
 
-	float cpu_utl = ((a[n-1].ct - idle_time)/a[n-1].ct)*100;
-	float throughput = n/(float)a[n-1].ct;
+	int cycleLength = a[n-1].ct - a[0].st;
+	float cpu_utl = ((cycleLength - idle_time)/(float)cycleLength)*100;
+	float throughput = n/(float)cycleLength;
 
 	printf("CPU Utilization = %f\n",cpu_utl);
-	printf("Through put = %f\n",throughput);
+	printf("Throughput = %f\n",throughput);
 	printf("Average TAT = %f\n",avg_tat);
 	printf("Average WT = %f\n",avg_wt);
 	printf("Average RT = %f\n",avg_rt);
