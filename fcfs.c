@@ -51,7 +51,7 @@ int main(){
 		a[i].rt = a[i].st - a[i].at;
 
 		if(a[i].st > a[i-1].ct)
-			idle_time += (a[i-1].ct - a[i].st);
+			idle_time += (a[i].st - a[i-1].ct);
 	}
 
 	float avg_tat = 0, avg_wt = 0, avg_rt = 0;
