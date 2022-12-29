@@ -7,17 +7,17 @@ typedef struct process{
     int need[10];
 }process;
 
-bool applySafetyAlgo(process a[], int available[], int ans[], int n, int r){
+bool applySafety(process a[],int ans[], int available[], int n, int r){
     int is_completed[n];
     int available_copy[r];
+    int k = 0,complete = 0;
+
     for(int i = 0 ; i < n ; i++)
         is_completed[i] = -1;
     for(int i = 0 ; i < r ; i++)
         available_copy[i] = available[i];
-    
-    bool proceed = true;
-    int k = 0, complete = 0;
 
+    bool proceed = true;
     while(proceed){
         proceed = false;
         for(int i = 0 ; i < n ; i++){
@@ -25,7 +25,7 @@ bool applySafetyAlgo(process a[], int available[], int ans[], int n, int r){
             if(is_completed[i] == -1){
                 for(int j = 0 ; j < r ; j++){
                     if(a[i].need[j] <= available_copy[j])
-                        continue;       //to check for each resource instance of same process
+                        continue;
                     else{
                         flag = false;
                         break;
@@ -34,9 +34,9 @@ bool applySafetyAlgo(process a[], int available[], int ans[], int n, int r){
                     continue;
                 for(int j = 0 ; j < r ; j++)
                     available_copy[j] += a[i].allocated[j];
-                is_completed[i] = 1;
-                complete++;
                 ans[k++] = i;
+                complete++;
+                is_completed[i] = 1;
                 proceed = true;
             }
         }
@@ -46,19 +46,15 @@ bool applySafetyAlgo(process a[], int available[], int ans[], int n, int r){
 }
 
 int main(){
-    int n,r;
-    printf("Enre the number of processes : ");
+    int n, r;
+    printf("Enter the number of processes : ");
     scanf("%d",&n);
     printf("Enter the number of resource instance in the system : ");
     scanf("%d",&r);
 
-    int available[r];
-    int ans[n];
     process a[n];
-
-    //Input
     for(int i = 0 ; i < n ; i++){
-        printf("\nProcess%d\n",i);
+        printf("\nProcess %d\n",i);
         printf("Enter Maximum Need : ");
         for(int j = 0 ; j < r ; j++){
             scanf("%d",&a[i].max[j]);
@@ -67,15 +63,11 @@ int main(){
             scanf("%d",&a[i].allocated[j]);
             a[i].need[j] = a[i].max[j] - a[i].allocated[j];
         }
-    }printf("\nEnter Avaliable Resources : ");
-    for(int i = 0 ; i < r ; i++){
-        scanf("%d",&available[i]);
     }
 
-    //Printing the table
-    printf("\nPID\t\tMaximum\t\tAllocated\tNeed\t\n");
+    printf("Process\t\tMax\t\tAllocated\tNeed\n");
     for(int i = 0 ; i < n ; i++){
-        printf("P[%d]\t\t",i+1);
+        printf("%d\t\t",i);
         for(int j = 0 ; j < r ; j++)
             printf("%d ",a[i].max[j]);
         printf("\t\t");
@@ -87,11 +79,20 @@ int main(){
         printf("\n");
     }
 
-    if(applySafetyAlgo(a,available,ans,n,r)){
+    int available[r];
+    int ans[n];
+
+    printf("Enter the available resources : ");
+    for(int i = 0 ; i < r ; i++){
+        scanf("%d",&available[i]);
+    }
+
+    if(applySafety(a,ans,available,n,r)){
         printf("\nSystem is in Safe State\n");
-        printf("Safe Sequence is : ");
-        for(int i = 0 ; i < n ; i++)
-            printf("P[%d]  ",ans[i]);
+        printf("Safe Sequence : ");
+        for(int i = 0 ; i < n ; i++){
+            printf("P[%d] ",ans[i]);
+        }
     }else
         printf("\nSystem is in Unsafe State\n");
 
